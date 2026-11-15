@@ -1,25 +1,28 @@
 # SMAET REC
-A local-first Windows 11 desktop recording studio. The desktop control app runs on the machine; any future local HTTP control endpoint must bind to `127.0.0.1` only. AirPlay reception, if added, is a separate LAN-facing receiver and must never expose the control API.
 
-## Current implementation
-- Arabic-first RTL desktop UI built with PySide6.
-- Live Windows desktop preview (MSS capture).
-- MP4 recording through FFmpeg's Windows `gdigrab` input (H.264); recording state and elapsed time are shown.
-- Simple project save/open (JSON) and remembers the last layout in the user's local app-data folder.
-- Drawing overlay on the preview (pen and clear).
-- Output folder shortcut and explicit FFmpeg availability checks.
+تطبيق سطح مكتب محلي لنظام Windows 11 بواجهة عربية مبسطة لتسجيل شاشة الكمبيوتر وحفظ الفيديو بصيغة MP4.
 
-## Not yet implemented / hardware verification required
-- iPhone USB mirroring: iOS does not expose a generic USB screen-mirroring API to Windows. No fake device is shown.
-- iPhone AirPlay reception: requires a compatible Windows AirPlay receiver component. This build reports it as unavailable rather than pretending to connect.
-- Microphone/system-audio mixing, 4K capture, touch telemetry, and installer signing are not claimed as working.
+## الحالة الحالية — MVP
+- واجهة Windows بسيطة باللغة العربية.
+- تسجيل سطح المكتب عبر FFmpeg `gdigrab`.
+- اختيار 30 أو 60 إطاراً/ثانية وترميز H.264.
+- اختيار مجلد الحفظ وعرض حالة التسجيل ومدته.
+- لا خادم ويب، ولا منافذ شبكة، ولا رفع سحابي.
 
-## Run on Windows 11
-1. Install Python 3.11 or newer.
-2. Install FFmpeg and ensure `ffmpeg.exe` is on PATH.
-3. Run `install.bat`, then `run.bat`.
+**غير منفذ بعد:** استقبال iPhone عبر USB أو AirPlay، معاينة iPhone، تسجيل الميكروفون/صوت النظام، أدوات الرسم والتخطيط المتقدم. لن نعتبر هذه الميزات مكتملة قبل تنفيذها واختبارها على Windows وجهاز iPhone فعلي.
 
-## Build a Windows folder release
-Run `build.bat`. PyInstaller writes `dist\\SMAET-REC\\`. This is an unsigned folder package, not an installer.
+## المتطلبات
+- Windows 11
+- Python 3.10 أو أحدث
+- FFmpeg مضاف إلى PATH (`ffmpeg -version` للتحقق)
 
-The preview and recording capture the primary desktop. Recording is H.264 MP4 at 30 FPS by default. Test on the target PC before relying on it.
+## التشغيل
+شغّل `run.bat`، ثم اختر مجلد الحفظ واضغط «بدء التسجيل». اضغط «إيقاف التسجيل» لإنهاء ملف MP4.
+
+## إنشاء ملف EXE
+شغّل `build.bat`. سيُنشأ الملف `dist/SMAET-REC.exe` باستخدام PyInstaller. يجب تنفيذ البناء واختبار الالتقاط على Windows 11.
+
+## الخصوصية والشبكة
+التطبيق الحالي لا يشغّل خادم HTTP ولا يفتح منفذاً شبكياً. كل التسجيلات تُحفظ محلياً في المجلد الذي تختاره. إذا أضيف AirPlay مستقبلاً، فسيكون مستقبل AirPlay مكوّناً منفصلاً يحتاج اتصال LAN، مع إبقاء واجهة التحكم وواجهات API على `127.0.0.1` حصرياً.
+
+راجع `docs/DEVELOPMENT.md` للتفاصيل.
