@@ -1,14 +1,21 @@
 # Development
 
-## Local development
-- Windows 11
-- Python 3.10+
-- FFmpeg available on PATH
+## Requirements
+- Windows 11 (x64)
+- Python 3.11+
+- FFmpeg build containing the `gdigrab` input and `libx264` encoder, available on PATH
 
-Run `run.bat` to start the Tkinter desktop UI. The app launches no HTTP server and opens no listening network socket. Screen capture uses FFmpeg's Windows `gdigrab` input and writes MP4 files to the selected local folder.
+## Setup and run
+1. Run `install.bat` to create `.venv` and install PySide6, MSS, and PyInstaller.
+2. Install FFmpeg separately and ensure `ffmpeg.exe` is available on PATH.
+3. Run `run.bat`.
 
-## Current scope
-The initial MVP records the Windows desktop at 30 or 60 fps with H.264. Audio capture, iPhone USB ingestion, and AirPlay receiver integration are intentionally not represented as implemented. Each requires a separately tested capture path and device-level validation.
+The desktop application does not start an HTTP server and opens no listening control socket. It captures the primary Windows desktop for preview using MSS and records the desktop through FFmpeg's `gdigrab` input at 30 FPS, H.264, MP4. Audio is intentionally disabled in this build.
 
-## Build
-Run `build.bat` to produce `dist/SMAET-REC.exe` with PyInstaller. Build and runtime verification must be performed on Windows 11; this repository automation environment cannot certify Windows hardware capture.
+## Current verified scope
+Implemented in source: Arabic RTL desktop interface, primary-monitor preview, pen/highlighter overlay, FFmpeg MP4 recording controls, output-folder shortcut, JSON project save/open, and last-output-folder persistence.
+
+Not implemented: iPhone USB screen ingestion, AirPlay receiver, microphone/system-audio recording, multi-monitor selection, 4K mode selection, touch/click telemetry, and installer signing. The iPhone action displays an explicit limitation message and never fabricates a connection.
+
+## Package
+Run `build.bat` to create an unsigned PyInstaller folder package under `dist/SMAET-REC/`. This is not an installer. Build and hardware testing must be performed on Windows 11; a GitHub source commit cannot certify that the capture backend works on a particular PC.
