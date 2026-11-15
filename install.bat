@@ -9,5 +9,7 @@ call .venv\Scripts\activate.bat
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 if errorlevel 1 (echo Dependency installation failed.& pause & exit /b 1)
+python -m pip install -e .
+if errorlevel 1 (echo SMAET REC package installation failed.& pause & exit /b 1)
 echo Installation complete. Install FFmpeg separately and add it to PATH.
 pause
