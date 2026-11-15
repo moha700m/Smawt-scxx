@@ -1,4 +1,5 @@
 @echo off
+setlocal
 cd /d "%~dp0"
-where python >nul 2>nul || (echo Python 3 is required. & pause & exit /b 1)
-python app.py
+if not exist .venv\Scripts\python.exe (echo Run install.bat first.& pause & exit /b 1)
+.venv\Scripts\python.exe -m smaet_rec
